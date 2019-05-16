@@ -1,0 +1,36 @@
+{% extends 'polls/base.html' %}
+
+{% block main_content %}
+
+    {% if user.is_authenticated %}
+
+        {% if latest_questions %}
+
+            {% if user.groups.all.0.name == "open_questions" or user.groups.all.1.name == "open_questions"%}
+                <p>Open:</p>
+                <ul>
+                {%  for question in open_questions %}
+                    <li><a href={%  url 'polls:openDetail' question.id%}><b>{{question.question_text}}</b></a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if user.groups.all.1.name == "closed_questions" or user.groups.all.0.name == "closed_questions" %}
+                <p>Closed:</p>
+                <ul>
+                {%  for question in closed_questions %}
+                    <li><a href={%  url 'polls:detail' question.id%}><b>{{question.question_text}}</b></a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+        {% else %}
+            <p>You don't have any questions. Please add some</p>
+        {% endif %}
+
+    {% else %}
+        <p>You are not logged in</p>
+
+    {% endif %}
+
+{% endblock %}

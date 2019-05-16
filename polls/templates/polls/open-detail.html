@@ -1,0 +1,27 @@
+{% extends 'polls/base.html' %}
+
+{% block main_content %}
+
+    {% if user.is_authenticated %}
+
+        {% if user.groups.all.0.name == "open_questions" or user.groups.all.1.name == "open_questions"%}
+            {% if question.is_question_open == True %}
+            <h1>{{question.question_text}}</h1>
+
+            {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
+
+
+               <form action="{% url 'polls:voteOpen' question.id %}" method="post">
+                   {%csrf_token%}
+                   <label for="answer">Enter your answer</label><br>
+                   <textarea rows="4" cols="50" type="text" name="answer" id="answer"></textarea></br>
+                   <input type="submit" value="vote">
+               </form>
+
+            {% endif %}
+        {% endif %}
+    {% else %}
+        You are not logged in
+    {% endif %}
+
+{% endblock %}

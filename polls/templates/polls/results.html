@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fusion.js' %}"></script>
+</head>
+<body>
+
+<h1>{{question.question_text}}</h1>
+
+    <ul>
+        {% for choice in question.choice_set.all %}
+            <li>{{ choice.choice_text }} - {{ choice.votes }} votes{{ choice.votes|pluralize }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <div id="chartContainer">{{ output|safe }}</div>
+    <div id="chart-1"></div>
+
+</body>
+</html>
